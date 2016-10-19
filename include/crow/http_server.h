@@ -28,7 +28,7 @@ namespace crow
     public:
     Server(Handler* handler, std::string bindaddr, uint16_t port, std::tuple<Middlewares...>* middlewares = nullptr, uint16_t concurrency = 1, typename Adaptor::context* adaptor_ctx = nullptr)
             : acceptor_(io_service_, tcp::endpoint(boost::asio::ip::address::from_string(bindaddr), port)),
-            signals_(io_service_, SIGINT, SIGTERM),
+            //signals_(io_service_, SIGINT, SIGTERM),
             tick_timer_(io_service_),
             handler_(handler),
             concurrency_(concurrency),
@@ -121,7 +121,7 @@ namespace crow
                             timer.async_wait(handler);
 
                             init_count ++;
-                            try 
+                            try
                             {
                                 io_service_pool_[i]->run();
                             } catch(std::exception& e)
@@ -130,7 +130,7 @@ namespace crow
                             }
                         }));
 
-            if (tick_function_ && tick_interval_.count() > 0) 
+            if (tick_function_ && tick_interval_.count() > 0)
             {
                 tick_timer_.expires_from_now(boost::posix_time::milliseconds(tick_interval_.count()));
                 tick_timer_.async_wait([this](const boost::system::error_code& ec)
@@ -143,10 +143,10 @@ namespace crow
 
             CROW_LOG_INFO << server_name_ << " server is running, local port " << port_;
 
-            signals_.async_wait(
-                [&](const boost::system::error_code& /*error*/, int /*signal_number*/){
-                    stop();
-                });
+            //signals_.async_wait(
+            //    [&](const boost::system::error_code& /*error*/, int /*signal_number*/){
+            //        stop();
+            //    });
 
             while(concurrency_ != init_count)
                 std::this_thread::yield();
@@ -203,7 +203,7 @@ namespace crow
         std::vector<detail::dumb_timer_queue*> timer_queue_pool_;
         std::vector<std::function<std::string()>> get_cached_date_str_pool_;
         tcp::acceptor acceptor_;
-        boost::asio::signal_set signals_;
+        //boost::asio::signal_set signals_;
         boost::asio::deadline_timer tick_timer_;
 
         Handler* handler_;
