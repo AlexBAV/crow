@@ -178,17 +178,17 @@ namespace crow
 
             inline bool operator < (const r_string& l, const r_string& r)
             {
-                return boost::lexicographical_compare(l,r);
+                return boost::algorithm::lexicographical_compare(l,r);
             }
 
             inline bool operator < (const r_string& l, const std::string& r)
             {
-                return boost::lexicographical_compare(l,r);
+                return boost::algorithm::lexicographical_compare(l,r);
             }
 
             inline bool operator > (const r_string& l, const std::string& r)
             {
-                return boost::lexicographical_compare(r,l);
+                return boost::algorithm::lexicographical_compare(r,l);
             }
 
             inline bool operator == (const r_string& l, const r_string& r)
