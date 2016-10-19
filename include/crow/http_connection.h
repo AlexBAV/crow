@@ -386,8 +386,7 @@ namespace crow
 
             buffers_.clear();
             buffers_.reserve(4*(res.headers.size()+5)+3);
-
-            if (res.body.empty() && res.json_value.t() == json::type::Object)
+            if (res.body.empty() && (res.json_value.t() == json::type::Object || res.json_value.t()==json::type::List))
             {
                 res.body = json::dump(res.json_value);
             }
