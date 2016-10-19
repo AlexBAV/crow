@@ -3,11 +3,11 @@
 // TODO - replace with runtime config. libucl?
 
 /* #ifdef - enables debug mode */
+#if defined(_DEBUG)
 #define CROW_ENABLE_DEBUG
-
 /* #ifdef - enables logging */
 #define CROW_ENABLE_LOGGING
-
+#endif
 /* #ifdef - enables ssl */
 //#define CROW_ENABLE_SSL
 
