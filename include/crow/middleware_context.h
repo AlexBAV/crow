@@ -14,7 +14,7 @@ namespace crow
             , public black_magic::last_element_type<Middlewares...>::type::context
         {
             using parent_context = typename black_magic::pop_back<Middlewares...>::template rebind<::crow::detail::partial_context>;
-            template <int N>
+            template <size_t N>
             using partial = typename std::conditional<N == sizeof...(Middlewares)-1, partial_context, typename parent_context::template partial<N>>::type;
 
             template <typename T> 

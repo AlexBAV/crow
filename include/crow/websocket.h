@@ -74,7 +74,7 @@ namespace crow
                 {
                     dispatch([this, msg]{
                         char buf[3] = "\x8A\x00";
-                        buf[1] += msg.size();
+                        buf[1] += static_cast<char>(msg.size());
                         write_buffers_.emplace_back(buf, buf+2);
                         write_buffers_.emplace_back(msg);
                         do_write();
@@ -126,7 +126,7 @@ namespace crow
                     buf[0] += opcode;
                     if (size < 126)
                     {
-                        buf[1] += size;
+                        buf[1] += static_cast<char>(size);
                         return {buf, buf+2};
                     }
                     else if (size < 0x10000)
@@ -138,7 +138,11 @@ namespace crow
                     else
                     {
                         buf[1] += 127;
+#if defined(_WIN64)
                         *(uint64_t*)(buf+2) = ((1==htonl(1)) ? (uint64_t)size : ((uint64_t)htonl((size) & 0xFFFFFFFF) << 32) | htonl((size) >> 32));
+#else
+						*(uint64_t*)(buf + 2) = ((1 == htonl(1)) ? (uint64_t)size : ((uint64_t)htonl((size) & 0xFFFFFFFF) << 32));
+#endif
                         return {buf, buf+10};
                     }
                 }
