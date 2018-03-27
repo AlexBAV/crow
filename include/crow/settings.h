@@ -4,7 +4,6 @@
 
 /* #ifdef - enables debug mode */
 #if defined(_DEBUG)
-#define CROW_ENABLE_DEBUG
 /* #ifdef - enables logging */
 #define CROW_ENABLE_LOGGING
 #endif
@@ -21,7 +20,9 @@
 
     default to INFO
 */
+#ifndef CROW_LOG_LEVEL
 #define CROW_LOG_LEVEL 1
+#endif
 
 
 // compiler flags
